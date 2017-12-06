@@ -1,7 +1,8 @@
 import requests
 import json
 import pandas as pd
-from urllib import urlretrieve
+# from urllib import urlretrieve
+from urllib.request import urlretrieve
 from os.path import isfile
 
 url = 'https://api.themoviedb.org/3/discover/movie?api_key=3b6df7438e6ca12251c94739d6c3d594&language=en-US&page={}&with_keywords=10183'
@@ -152,9 +153,10 @@ def get_actor_popularity(id):
                 continue    # skip this movie
             popList = []
             for a in movieActors:
-                print a
+                # print a
                 print(allActPop.loc[allActPop['0'] == a].values[:,1])
-                popList.append(allActPop.loc[allActPop['0'] == a].values[:,1][0])
+                if len(allActPop.loc[allActPop['0'] == a].values[:,1]) != 0:
+                    popList.append(allActPop.loc[allActPop['0'] == a].values[:,1][0])
             # print 'movieActors'
             # print movieActors
             # print 'popList'
@@ -163,7 +165,7 @@ def get_actor_popularity(id):
             topThree = sorted(zip(popList, movieActors), reverse=True)[:3]
             # innerArr = [x[1] for x in topThree]
             innerArr = [i]
-            innerArr.extend([x[1] for x in topThree])
+            innerArr.extend([x[0] for x in topThree])
             # innerArr.append(i)
             topMovieActors.append(innerArr)
     finally:
