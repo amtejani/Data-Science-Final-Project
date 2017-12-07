@@ -6,7 +6,7 @@ from urllib.request import urlretrieve
 from os.path import isfile
 
 url = 'https://api.themoviedb.org/3/discover/movie?api_key=3b6df7438e6ca12251c94739d6c3d594&language=en-US&page={}&with_keywords=10183'
-img = 'https://image.tmdb.org/t/p/w500'
+img = 'https://image.tmdb.org/t/p/w92'
 meta = 'https://api.themoviedb.org/3/movie/{}?api_key=3b6df7438e6ca12251c94739d6c3d594&language=en-US'
 credits = 'https://api.themoviedb.org/3/movie/{}/credits?api_key=3b6df7438e6ca12251c94739d6c3d594'
 actor_pop = 'https://api.themoviedb.org/3/person/{}?api_key=3b6df7438e6ca12251c94739d6c3d594&language=en-US'
@@ -27,6 +27,7 @@ def get_id():
     return id
 
 def get_imgs(df):
+    # imgs = ['poster','backdrop']
     imgs = ['poster','backdrop']
     for i in imgs:
         s = i + '_path'
@@ -34,7 +35,7 @@ def get_imgs(df):
             if(type(j) == str ):
                 print(type(j))
                 u = img + j
-                a = 'data/'+ i + j
+                a = 'data/small/'+ i + j
                 print(u)
                 if(not isfile(a)):
                     urlretrieve(u, a)
@@ -174,12 +175,12 @@ def get_actor_popularity(id):
 
 if __name__ == "__main__":
     # id = get_id()
-    # df = pd.read_csv('data/movies.csv')
+    df = pd.read_csv('data/movies.csv')
     # id = df['id'].values
     # print(id)
     # get_metadata(id)
-    df = pd.read_csv('data/mov.csv')
+    # df = pd.read_csv('data/mov.csv')
     id = df['id'].values
     # get_credits(id)
-    # get_imgs(df)
-    get_actor_popularity(id)
+    get_imgs(df)
+    # get_actor_popularity(id)
